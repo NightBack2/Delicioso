@@ -13,10 +13,12 @@ public class Drink implements OrderItem{
 
     // Getters
     public String getSize() {
+
         return size;
     }
 
     public String getFlavor() {
+
         return flavor;
     }
 
@@ -31,6 +33,7 @@ public class Drink implements OrderItem{
 
     @Override
     public String getDescription() {
+
         return size + "" + flavor + " Drink";
     }
 }

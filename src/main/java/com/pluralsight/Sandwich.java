@@ -1,6 +1,7 @@
 package com.pluralsight;
 import java.util.List;
-public class Sandwich implements OrderItem {
+import java.util.ArrayList;
+public class Sandwich implements OrderItem, ItemCustomizable {
     private SandwichSize size;
     private BreadType breadType;
     private List<Topping> toppings;
@@ -14,11 +15,18 @@ public class Sandwich implements OrderItem {
     }
 
     public void addTopping(Topping topping) {
+
         toppings.add(topping);
     }
 
     public void setToasted(boolean toasted) {
+
         this.toasted = toasted;
+    }
+
+    @Override
+    public void addTopping(Sauce sauce) {
+
     }
 
     // Calculate the total cost of the sandwich
@@ -41,14 +49,26 @@ public class Sandwich implements OrderItem {
         for (Topping topping : toppings) {
             totalCost += topping.calculteItemCost();
         }
-        return totalCost;{
+        if (toasted) {
+            totalCost += 0.50;
+        }
+        return totalCost;
+
 
         }
 
     @Override
-    public String getDescription(); {
-        return size + " " + breadType + " Sandwich";
+    public String getDescription() {
+        StringBuilder description = new StringBuilder();
+        description.append(size).append(" ").append(breadType).append(" Sandwich\n");
+        description.append("Toppings:\n");
+        for (Topping topping : toppings) {
+            description.append("- ").append(topping.getName()).append("\n");
+        }
+        if (toasted) {
+            description.append("Toasted\n");
+        }
+        return description.toString();
     }
 }
 
-}

@@ -10,21 +10,16 @@ public class Chips implements OrderItem {
     }
 
     // Getters
-    public String getType() {
-        return type;
-    }
-
-    public double getPrice() {
-        return price;
-    }
 
     @Override
     public double calculteItemCost() {
+
         return price ;
     }
 
     @Override
     public String getDescription() {
+
         return type + "chips";
     }
 }

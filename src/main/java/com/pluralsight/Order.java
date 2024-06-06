@@ -1,67 +1,49 @@
 package com.pluralsight;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ArrayList;
 public class Order {
         private List<OrderItem> items;
-        private LocalDateTime> orderTime;
+        private LocalDateTime orderTime;
 
         public Order() {
             this.items = new ArrayList<>();
             this.orderTime = LocalDateTime.now();
         }
-        public void addItem(OrderItem Item {
+        public void addItem(OrderItem item) {
             items.add(item);
         }
 
         public double calculateTotalCost() {
             double totalCost = 0.0;
             for (OrderItem item : items) {
-                totalCost += item.calculateItemCost();
+                totalCost += item.calculteItemCost();
             }
             return totalCost;
         }
 
-        public void generateReceipt(){
-         String fileName = "receipts/" + orderTime.format(DateTimeFormatter.ofPattern("yyyy-mm-dd")) + " .txt"
+        public void generateReceipt() {
+            try {
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+                String fileName = "receipts/" + now.format(formatter) + ".txt";
+                FileWriter writer = new FileWriter(fileName);
+                writer.write("Order Details:\n");
+                for (OrderItem item : items) {
+                    writer.write(item.getDescription() + "\n");
+                }
+                writer.write("Total Cost: $" + calculateTotalCost() + "\n");
+                writer.close();
+            } catch (IOException e) {
+                System.out.println("Error generating receipt: " + e.getMessage());
+            }
         }
 
-
-    @Override
-    public void processOrder(Order order) {
-        this.sandwiches = new ArrayList<>();
-        this.drinks = new ArrayList<>();
-        this.chips = new ArrayList<>();
-
-    }
-    public void addSandwich(Sandwich sandwich) {
-        sandwiches.add(sandwich);
-    }
-
-    // Add drink to the order
-    public void addDrink(Drink drink) {
-        drinks.add(drink);
-    }
-
-    // Add chips to the order
-    public void addChips(Chips chips) {
-        this.chips.add(chips);
-    }
-
-    // Calculate the total cost of the order
-    public double calculateTotalCost() {
-        double totalCost = 0.0;
-        for (Sandwich sandwich : sandwiches) {
-            totalCost += sandwich.calculateTotalCost();
-        }
-        for (Drink drink : drinks) {
-            totalCost += drink.getPrice();
-        }
-        for (Chips chip : chips) {
-            totalCost += chip.getPrice();
-        }
-        return totalCost;
+    public OrderItem[] getItems() {
+        return new OrderItem[0];
     }
 }
 
